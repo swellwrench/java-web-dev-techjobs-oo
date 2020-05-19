@@ -11,6 +11,7 @@ public class JobTest {
     static Job testJobWithFields;
     static Job testJobWithFields2;
     static Job testJobWithPartialFields;
+    static Job testJobWithAllBlankFields;
 
     @BeforeClass
     public static void setUp() {
@@ -19,6 +20,7 @@ public class JobTest {
          testJobWithFields = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality control"), new CoreCompetency("Persistence"));
          testJobWithFields2 = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality control"), new CoreCompetency("Persistence"));
          testJobWithPartialFields = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType(""), new CoreCompetency(""));
+         testJobWithAllBlankFields = new Job("", new Employer(""), new Location(""), new PositionType(""), new CoreCompetency(""));
     }
 
     @Test
@@ -42,6 +44,7 @@ public class JobTest {
     @Test
     public void testJobsForEquality() {
         assertNotEquals(testJobWithFields,testJobWithFields2);
+
     }
 
     @Test
@@ -58,6 +61,16 @@ public class JobTest {
     @Test
     public void toStringFormatsProperlyWithPartialFields() {
         assertEquals(testJobWithPartialFields.toString(),"\nID: " + testJobWithPartialFields.getId() + "\nName: " + testJobWithPartialFields.getName() + "\nEmployer: " + testJobWithPartialFields.getEmployer() + "\nLocation: " + testJobWithFields.getLocation() + "\nPosition Type: Data not available\nCore Competency: Data not available\n");
+    }
+
+    @Test
+    public void toStringErrorWhenAllFieldsNull() {
+        assertEquals(emptyTestJob1.toString(),"OOPS! This job does not seem to exist.");
+    }
+
+    @Test
+    public void toStringErrorWhenAllFieldsBlank() {
+        assertEquals(testJobWithAllBlankFields.toString(),"OOPS! This job does not seem to exist.");
     }
 
 }

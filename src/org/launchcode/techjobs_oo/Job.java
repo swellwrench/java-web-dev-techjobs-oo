@@ -1,10 +1,8 @@
 package org.launchcode.techjobs_oo;
 
-import static org.junit.Assert.assertEquals;
-
 public class Job {
 
-    private int id;
+    public int id;
     private static int nextId = 1;
 
     private String name;
@@ -13,15 +11,12 @@ public class Job {
     private PositionType positionType;
     private CoreCompetency coreCompetency;
     private String finalOutputString;
+    public int emptyFieldCounter = 0;
 
     public Job() {
         this.id = nextId;
         nextId++;
     }
-
-    // TODO: Add two constructors - one to initialize a unique ID and a second to initialize the
-    //  other five fields. The second constructor should also call the first in order to initialize
-    //  the 'id' field.
 
     public Job(String name, Employer employer, Location location, PositionType positionType, CoreCompetency coreCompetency) {
         this();
@@ -43,21 +38,34 @@ public class Job {
         String fieldValue = field.getValue();
         if (fieldValue == "") {
             fieldValue = "Data not available";
+            emptyFieldCounter += 1;
         }
-        return "\n" + fieldName + ": " + fieldValue;
+        if (emptyFieldCounter == 4) {
+            return "OOPS! This job does not seem to exist.";
+        } else {
+            return "\n" + fieldName + ": " + fieldValue;
+        }
     }
 
     @Override
     public String toString() {
 //        return "\nID: " + this.getId() + "\nName: " + this.getName() + "\nEmployer: " + this.getEmployer() + "\nLocation: " + this.getLocation() + "\nPosition Type: " + this.getPositionType() + "\nCore Competency: " + this.getCoreCompetency() + "\n";
-        finalOutputString = "\nID: " + this.getId();
-        finalOutputString +="\nName: " + this.getName();
-        finalOutputString += stringifyByField(this.getEmployer());
-        finalOutputString += stringifyByField(this.getLocation());
-        finalOutputString += stringifyByField(this.getPositionType());
-        finalOutputString += stringifyByField(this.getCoreCompetency());
-        finalOutputString += "\n";
-        return finalOutputString;
+        try {
+            finalOutputString = "\nID: " + this.getId();
+            finalOutputString +="\nName: " + this.getName();
+            finalOutputString += stringifyByField(this.getEmployer());
+            finalOutputString += stringifyByField(this.getLocation());
+            finalOutputString += stringifyByField(this.getPositionType());
+            finalOutputString += stringifyByField(this.getCoreCompetency());
+            finalOutputString += "\n";
+            if (finalOutputString.contains("OOPS! This job does not seem to exist.")) {
+                return "OOPS! This job does not seem to exist.";
+            } else {
+                return finalOutputString;
+            }
+        } catch (NullPointerException e) {
+            return "OOPS! This job does not seem to exist.";
+        }
     }
 
     @Override

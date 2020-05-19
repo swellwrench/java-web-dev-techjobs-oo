@@ -27,6 +27,14 @@ public abstract class JobField {
         return Objects.hash(getId());
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (getClass() != o.getClass()) return false;
+        JobField jobField = (JobField) o;
+        return getId() == jobField.getId();
+    }
+
     public int getId() {
         return id;
     }
