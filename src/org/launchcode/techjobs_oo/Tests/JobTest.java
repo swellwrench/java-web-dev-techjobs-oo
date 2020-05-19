@@ -44,7 +44,6 @@ public class JobTest {
     @Test
     public void testJobsForEquality() {
         assertNotEquals(testJobWithFields,testJobWithFields2);
-
     }
 
     @Test

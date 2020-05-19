@@ -4,14 +4,11 @@ public class Job {
 
     public int id;
     private static int nextId = 1;
-
     private String name;
     private Employer employer;
     private Location location;
     private PositionType positionType;
     private CoreCompetency coreCompetency;
-    private String finalOutputString;
-    public int emptyFieldCounter = 0;
 
     public Job() {
         this.id = nextId;
@@ -27,47 +24,31 @@ public class Job {
         this.coreCompetency = coreCompetency;
     }
 
-    public String stringifyByField(JobField field) {
-        String fieldName = field.getClass().getSimpleName();
-        if (fieldName.equals("CoreCompetency")) {
-            fieldName = "Core Competency";
-        }
-        if (fieldName.equals("PositionType")) {
-            fieldName = "Position Type";
-        }
-        String fieldValue = field.getValue();
-        if (fieldValue == "") {
-            fieldValue = "Data not available";
-            emptyFieldCounter += 1;
-        }
-        if (emptyFieldCounter == 4) {
-            return "OOPS! This job does not seem to exist.";
-        } else {
-            return "\n" + fieldName + ": " + fieldValue;
-        }
-    }
-
     @Override
     public String toString() {
-//        return "\nID: " + this.getId() + "\nName: " + this.getName() + "\nEmployer: " + this.getEmployer() + "\nLocation: " + this.getLocation() + "\nPosition Type: " + this.getPositionType() + "\nCore Competency: " + this.getCoreCompetency() + "\n";
+        String outputStringCore = "";
+        JobField[] arrayOfJobFields = {employer, location, positionType, coreCompetency};
+        int emptyFieldCounter = 0;
         try {
-            finalOutputString = "\nID: " + this.getId();
-            finalOutputString +="\nName: " + this.getName();
-            finalOutputString += stringifyByField(this.getEmployer());
-            finalOutputString += stringifyByField(this.getLocation());
-            finalOutputString += stringifyByField(this.getPositionType());
-            finalOutputString += stringifyByField(this.getCoreCompetency());
-            finalOutputString += "\n";
-            if (finalOutputString.contains("OOPS! This job does not seem to exist.")) {
-                return "OOPS! This job does not seem to exist.";
-            } else {
-                return finalOutputString;
+            for (JobField jobField : arrayOfJobFields) {
+                String jobFieldValue;
+                if (jobField.getValue().equals("")) {
+                    jobFieldValue = "Data not available";
+                    emptyFieldCounter += 1;
+                } else {
+                    jobFieldValue = jobField.getValue();
+                }
+                outputStringCore += "\n" + jobField.getCategory() + ": " + jobFieldValue;
             }
-        } catch (NullPointerException e) {
+            if (emptyFieldCounter < 4) {
+                return "\nID: " + id + "\nName: " + name + outputStringCore + "\n";
+            } else {
+                return "OOPS! This job does not seem to exist.";
+            }
+        } catch(NullPointerException e) {
             return "OOPS! This job does not seem to exist.";
         }
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -80,7 +61,6 @@ public class Job {
     public int hashCode() {
         return super.hashCode();
     }
-
 
     public String getName() {
         return name;
