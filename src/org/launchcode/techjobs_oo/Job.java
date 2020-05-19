@@ -2,7 +2,7 @@ package org.launchcode.techjobs_oo;
 
 public class Job {
 
-    public int id;
+    private int id;
     private static int nextId = 1;
     private String name;
     private Employer employer;
@@ -24,31 +24,35 @@ public class Job {
         this.coreCompetency = coreCompetency;
     }
 
+    // Overrides:
+
     @Override
     public String toString() {
         String outputStringCore = "";
         JobField[] arrayOfJobFields = {employer, location, positionType, coreCompetency};
         int emptyFieldCounter = 0;
-        try {
-            for (JobField jobField : arrayOfJobFields) {
-                String jobFieldValue;
-                if (jobField.getValue().equals("")) {
-                    jobFieldValue = "Data not available";
+        try {   // Try/catch so that jobs with null fields trigger the job-does-not-exist message.
+            for (JobField jobField : arrayOfJobFields) { // This loop is responsible for writing all of the final
+                String jobFieldValue;                    // string except for the ID, Name, and opening and closing
+                if (jobField.getValue().equals("")) {    // blank lines. If a field is empty, it replaces its value with
+                    jobFieldValue = "Data not available";// Data Not Available and increments the empty field counter.
                     emptyFieldCounter += 1;
                 } else {
                     jobFieldValue = jobField.getValue();
                 }
-                outputStringCore += "\n" + jobField.getCategory() + ": " + jobFieldValue;
-            }
+                outputStringCore += "\n" + jobField.getCategory() + ": " + jobFieldValue; //Each loop iteration adds an-
+            }                                                                             //other line to outputStringCore.
             if (emptyFieldCounter < 4) {
-                return "\nID: " + id + "\nName: " + name + outputStringCore + "\n";
-            } else {
-                return "OOPS! This job does not seem to exist.";
-            }
-        } catch(NullPointerException e) {
+                return "\nID: " + id + "\nName: " + name + outputStringCore + "\n"; // Final output string - returns
+            } else {                                                                // outputStringCore from the loop plus
+                                                                                    // the missing ID, Name, and blank lines.
+                return "OOPS! This job does not seem to exist."; // An empty field counter of 4 implies that all four
+            }                                                    // job fields are blank and triggers the job-does-not-
+        } catch(NullPointerException e) {                        // exist message.
             return "OOPS! This job does not seem to exist.";
         }
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -61,6 +65,8 @@ public class Job {
     public int hashCode() {
         return super.hashCode();
     }
+
+    // Getters and setters:
 
     public String getName() {
         return name;

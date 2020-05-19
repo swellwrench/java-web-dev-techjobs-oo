@@ -6,7 +6,7 @@ public abstract class JobField {
     private int id;
     private static int nextId = 1;
     private String value;
-    private String category;
+    private String category; // Name of the job field as it should appear in the final output string.
 
     public JobField() {
         this.id = nextId;
@@ -17,6 +17,8 @@ public abstract class JobField {
         this();
         this.value = value;
     }
+
+    // Overrides:
 
     @Override
     public String toString() {
@@ -35,6 +37,8 @@ public abstract class JobField {
         JobField jobField = (JobField) o;
         return getId() == jobField.getId();
     }
+
+    // Getters and setters:
 
     public int getId() {
         return id;
