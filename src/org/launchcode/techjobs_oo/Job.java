@@ -12,9 +12,10 @@ public class Job {
     private Location location;
     private PositionType positionType;
     private CoreCompetency coreCompetency;
+    private String finalOutputString;
 
     public Job() {
-        id = nextId;
+        this.id = nextId;
         nextId++;
     }
 
@@ -31,9 +32,32 @@ public class Job {
         this.coreCompetency = coreCompetency;
     }
 
+    public String stringifyByField(JobField field) {
+        String fieldName = field.getClass().getSimpleName();
+        if (fieldName.equals("CoreCompetency")) {
+            fieldName = "Core Competency";
+        }
+        if (fieldName.equals("PositionType")) {
+            fieldName = "Position Type";
+        }
+        String fieldValue = field.getValue();
+        if (fieldValue == "") {
+            fieldValue = "Data not available";
+        }
+        return "\n" + fieldName + ": " + fieldValue;
+    }
+
     @Override
     public String toString() {
-        return "\nID: " + this.getId() + "\nName: " + this.getName() + "\nEmployer: " + this.getEmployer() + "\nLocation: " + this.getLocation() + "\nPosition Type: " + this.getPositionType() + "\nCore Competency: " + this.getCoreCompetency() + "\n";
+//        return "\nID: " + this.getId() + "\nName: " + this.getName() + "\nEmployer: " + this.getEmployer() + "\nLocation: " + this.getLocation() + "\nPosition Type: " + this.getPositionType() + "\nCore Competency: " + this.getCoreCompetency() + "\n";
+        finalOutputString = "\nID: " + this.getId();
+        finalOutputString +="\nName: " + this.getName();
+        finalOutputString += stringifyByField(this.getEmployer());
+        finalOutputString += stringifyByField(this.getLocation());
+        finalOutputString += stringifyByField(this.getPositionType());
+        finalOutputString += stringifyByField(this.getCoreCompetency());
+        finalOutputString += "\n";
+        return finalOutputString;
     }
 
     @Override

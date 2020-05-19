@@ -18,7 +18,7 @@ public class JobTest {
          emptyTestJob2 = new Job();
          testJobWithFields = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality control"), new CoreCompetency("Persistence"));
          testJobWithFields2 = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality control"), new CoreCompetency("Persistence"));
-         testJobWithPartialFields = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType(), new CoreCompetency());
+         testJobWithPartialFields = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType(""), new CoreCompetency(""));
     }
 
     @Test
