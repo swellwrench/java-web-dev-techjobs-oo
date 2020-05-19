@@ -10,6 +10,7 @@ public class JobTest {
     static Job emptyTestJob2;
     static Job testJobWithFields;
     static Job testJobWithFields2;
+    static Job testJobWithPartialFields;
 
     @BeforeClass
     public static void setUp() {
@@ -17,6 +18,7 @@ public class JobTest {
          emptyTestJob2 = new Job();
          testJobWithFields = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality control"), new CoreCompetency("Persistence"));
          testJobWithFields2 = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality control"), new CoreCompetency("Persistence"));
+         testJobWithPartialFields = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType(), new CoreCompetency());
     }
 
     @Test
@@ -40,6 +42,22 @@ public class JobTest {
     @Test
     public void testJobsForEquality() {
         assertNotEquals(testJobWithFields,testJobWithFields2);
+    }
+
+    @Test
+    public void toStringAddsBlankLines() {
+        assertTrue(testJobWithFields.toString().startsWith("\n"));
+        assertTrue(testJobWithFields.toString().endsWith("\n"));
+    }
+
+    @Test
+    public void toStringFormatsProperlyWhenAllFieldsPresent() {
+        assertEquals(testJobWithFields.toString(),"\nID: " + testJobWithFields.getId() + "\nName: " + testJobWithFields.getName() + "\nEmployer: " + testJobWithFields.getEmployer() + "\nLocation: " + testJobWithFields.getLocation() + "\nPosition Type: " + testJobWithFields.getPositionType() + "\nCore Competency: " + testJobWithFields.getCoreCompetency() + "\n");
+    }
+
+    @Test
+    public void toStringFormatsProperlyWithPartialFields() {
+        assertEquals(testJobWithPartialFields.toString(),"\nID: " + testJobWithPartialFields.getId() + "\nName: " + testJobWithPartialFields.getName() + "\nEmployer: " + testJobWithPartialFields.getEmployer() + "\nLocation: " + testJobWithFields.getLocation() + "\nPosition Type: Data not available\nCore Competency: Data not available\n");
     }
 
 }

@@ -1,5 +1,7 @@
 package org.launchcode.techjobs_oo;
 
+import static org.junit.Assert.assertEquals;
+
 public class Job {
 
     private int id;
@@ -27,6 +29,11 @@ public class Job {
         this.location = location;
         this.positionType = positionType;
         this.coreCompetency = coreCompetency;
+    }
+
+    @Override
+    public String toString() {
+        return "\nID: " + this.getId() + "\nName: " + this.getName() + "\nEmployer: " + this.getEmployer() + "\nLocation: " + this.getLocation() + "\nPosition Type: " + this.getPositionType() + "\nCore Competency: " + this.getCoreCompetency() + "\n";
     }
 
     @Override
